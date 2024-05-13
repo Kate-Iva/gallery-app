@@ -46,22 +46,11 @@ const errorMessage = message => {
 const infoMessage = message => {
   iziToast.info({
     ...toastSettings,
-    timeout: 10000,
     backgroundColor: 'lightblue',
     message,
   });
 };
 
-const successMessage = message => {
-    iziToast.info({
-        position: 'topLeft',
-  messageColor: '#ffffff',
-  timeout: 3000,
-  radius: 15,
-      backgroundColor: 'lightgreen',
-      message,
-    });
-  };
 
 const scrolledImages = height => {
   const timeout = setTimeout(() => {
@@ -99,11 +88,6 @@ const loadMore = async () => {
   
       page += 1; 
 
-      if (loadMoreButton) {
-        return successMessage(
-           `Loaded ${page - 1}th page from ${maxPages} pages`
-         ) ; 
-      }
       const galleryItem = document.querySelector('.gallery-item');
       const galleryItemSize = galleryItem.getBoundingClientRect();
       scrolledImages(galleryItemSize.height);
