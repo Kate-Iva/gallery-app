@@ -20,6 +20,7 @@ let page = 1;
 let perPage = 15;
 let maxPages;
 
+
 const lightboxOptions = {
   captionsData: 'alt',
   captionDelay: 250,
@@ -45,11 +46,11 @@ const errorMessage = message => {
 const infoMessage = message => {
   iziToast.info({
     ...toastSettings,
+    timeout: 10000,
     backgroundColor: 'lightblue',
     message,
   });
 };
-
 
 const scrolledImages = height => {
   const timeout = setTimeout(() => {
@@ -95,6 +96,7 @@ const loadMore = async () => {
       console.error(error);
     }
   };
+
 
 const handleSubmit = async event => {
   event.preventDefault();
