@@ -64,39 +64,36 @@ const scrolledImages = height => {
 };
 
 const loadMore = async () => {
-    // ...
+
     try {
       gallerySection.insertAdjacentHTML('beforebegin', loaderHtml);
   
-      if (page >= maxPages) {
-        loadMoreButton.classList.add('none'); 
-        infoMessage("We're sorry, but you've reached the end of search results.");
-      }
-
       const imagesData = await fetchImages(formInput, page, perPage);
   
       const loader = document.querySelector('#loader');
       if (loader) {
         loader.remove();
       }
-  //...
       images = [...imagesData.hits];
       
       renderImages(imgBlock, images);
       
       lightbox.refresh();
   
-      page += 1; 
-
       const galleryItem = document.querySelector('.gallery-item');
       const galleryItemSize = galleryItem.getBoundingClientRect();
       scrolledImages(galleryItemSize.height);
+
   
+        if (page >= maxPages) {
+        loadMoreButton.classList.add('none'); 
+        infoMessage("We're sorry, but you've reached the end of search results.");
+      }
+      page += 1;
     } catch (error) {
       console.error(error);
     }
   };
-
 
 const handleSubmit = async event => {
   event.preventDefault();
@@ -129,12 +126,18 @@ const handleSubmit = async event => {
       renderImages(imgBlock, images);
 
       lightbox.refresh();
-      maxPages = Math.ceil(imagesData.total / perPage);
-      page += 1;
-//...
-      if (page > 1) {
+      maxPages = Math.ceil(imagesData.totalHits / perPage);
+
+      if (page >= 1) {
         loadMoreButton.classList.replace('none', 'load-more');
       }
+ if (page >= maxPages) {
+    loadMoreButton.classList.add('none'); 
+    infoMessage("We're sorry, but you've reached the end of search results.");
+  }
+
+page += 1;
+
     } else {
         errorMessage(
         'Sorry, there are no images matching your search query. Please, try again again!'
@@ -143,12 +146,7 @@ const handleSubmit = async event => {
   } catch (error) {
     console.error('Error fetching images:', error);
   }
-  ///...
-  if (page >= maxPages) {
-    loadMoreButton.classList.add('none'); 
-    infoMessage("We're sorry, but you've reached the end of search results.");
-  }
-
+ 
   form.reset();
 };
 
